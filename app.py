@@ -1,5 +1,3 @@
-# Taller WS : Cristian Torres
-# Archivo python : app 
 import dash
 from dash import dcc
 from dash import html
@@ -8,11 +6,13 @@ import plotly.graph_objs as go
 import numpy as np
 import pandas as pd
 import datetime as dt
+import os
 
 
 
 app = dash.Dash(
     __name__,
+    assets_folder="assets_carpeta",
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}],
 )
 app.title = "Dashboard energia"
@@ -23,11 +23,12 @@ app.config.suppress_callback_exceptions = True
 
 # Load data from csv
 def load_data():
-    # To do: Completar la funcion
-    df = pd.read_csv('datos_energia.csv')
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    df = pd.read_csv(os.path.join(base_dir, 'datos_energia.csv'), encoding='utf-8')
     df['time'] = pd.to_datetime(df['time'])
     df.set_index('time', inplace=True)
     return df
+    
     
 
 # Cargar datos
@@ -161,7 +162,7 @@ def generate_control_card():
 
             html.Br(),
 
-            # Slider proyecciÃ³n
+            # Slider proyección
             html.Div(
                 id="campo-slider",
                 children=[
